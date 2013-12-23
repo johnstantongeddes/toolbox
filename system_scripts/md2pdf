@@ -13,6 +13,6 @@
 for i in $@
 do
 	out=$(echo $i | cut -d '.' -f 1)
-    pandoc $i -o ${out}.pdf --latex-engine=xelatex -H ../tex/margins.sty
+    pandoc $i -o ${out}.pdf --latex-engine=xelatex -H ~/toolbox/tex/margins.sty
 done
 

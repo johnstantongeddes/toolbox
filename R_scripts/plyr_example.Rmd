@@ -8,7 +8,7 @@ library(plyr)
 ```
 
 ```{r load data}
-data <- read.csv("201301104_primer_efficiency_55_anneal.csv", skip=3, as.is=TRUE)
+data <- read.csv("plyr_example_data.csv", skip=3, as.is=TRUE)
 head(data)
 str(data)
 ```
