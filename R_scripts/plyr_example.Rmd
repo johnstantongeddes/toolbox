@@ -1,0 +1,52 @@
+qPCR analysis
+========================================================
+
+Preliminary analysis of Andrew's qPCR data.
+
+```{r setup}
+library(plyr)
+```
+
+```{r load data}
+data <- read.csv("201301104_primer_efficiency_55_anneal.csv", skip=3, as.is=TRUE)
+head(data)
+str(data)
+```
+
+Modifications to data file. 
+
+* Rename `C_` to `Ct` 
+* Assign `Ct` "Undetermined" to NA
+* Convert `Ct` to numeric
+* Convert `target` to factor
+
+```{r modify}
+colnames(data)[4] <- "Ct"
+data[data$Ct=="Undetermined", "Ct"] <- NA
+data$Ct <- as.numeric(data$Ct)
+data$target <- as.factor(data$target)
+head(data)
+str(data)
+summary(data)
+levels(data$target)
+```
+
+Generate a histogram of *Ct*
+
+```{r hist}
+hist(data$Ct)
+```
+
+
+```{r plyr}
+datasub <- subset(data, dilution != 0,)
+datasub <- na.exclude(datasub)
+str(datasub)
+
+#ddply(datasub, .(target, dilution), summarize, mean = mean(Ct, na.rm=TRUE))
+#ddply(datasub, .(target), summarize, table(dilution))
+#ddply(datasub, .(target, dilution), summarize, table(Ct))
+
+ddply(datasub, .(target), summarize, slope = lm(Ct ~ log(dilution))$coef[2])
+```
+

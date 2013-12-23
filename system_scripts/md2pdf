@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Author: John Stanton-Geddes
+# Created: 2013-12-23
+
+# bash script to generate pdf files from markdown for protocols
+# requires [pandoc]() to be installed
+
+# specify xelatex to allow unicode symbols such as plus-minus and degree symbol when generating pdf
+# change default margins (potentially other features) by specifying style file when compiling in pandoc
+
+# loop across all arguments provided on command line
+for i in $@
+do
+	out=$(echo $i | cut -d '.' -f 1)
+    pandoc $i -o ${out}.pdf --latex-engine=xelatex -H ../tex/margins.sty
+done
+
