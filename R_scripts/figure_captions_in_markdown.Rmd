@@ -1,0 +1,33 @@
+# Getting Proper Figure Captions In R Markdown
+25 November 2013 
+
+Nicholas J. Gotelli  
+Department of Biology  
+University of Vermont
+___
+For reasons I can't understand, R markdown does not produce a figure caption when you ask it to. In order to do this, we have to include the following code for two hooks at the start of the Rmd file:
+
+```{r Captionmaker}
+knit_hooks$set(cap = function(before, options, envir) {
+  if(!before) {
+    paste('<p class="caption">', "<b>", options$cap, "</b>", "</p>","\n","___",sep="")
+    }
+    })
+knit_hooks$set(cap.cen = function(before, options, envir) {
+  if(!before) {
+    paste('<p align="center", class="caption">', "<b>", options$cap.cen, "</b>", "</p>","\n","___",sep="")
+    }
+    })
+
+```
+
+I've added bold-faced formatting and a single underline to make it easier to distinguish from surrounding text. Now we can add a chunk and insert a caption
+
+```{r CaptionDemo, cap="Figure 1. Here is a sample caption for showing the plotting of 50 consecutive random uniform numbers."}
+plot(runif(50),type="b")
+```
+
+And here we add a figure with a centered caption, which uses cap.cen:
+```{r CaptionDemo2, fig.align='center', cap.cen="Figure 2. Here is a sample caption for a figure that is centered."}
+plot(runif(50),type="s")
+```

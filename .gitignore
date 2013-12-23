@@ -6,3 +6,9 @@
 
 # Example code in package build process
 *-Ex.R
+
+# Ignore latex intermediate files
+*.out
+*.log
+*.gz
+*.aux
